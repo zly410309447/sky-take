@@ -5,6 +5,9 @@ import com.sky.entity.Employee;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+
+import java.util.List;
 
 @Mapper
 public interface EmployeeMapper {
@@ -18,4 +21,15 @@ public interface EmployeeMapper {
     Employee getByUsername(String username);
 
     int insertEmployee(Employee employee);
+
+    List<Employee> getEmployeePage(String name, Integer page, Integer pageSize);
+
+    @Update("update employee set status = #{status} where id = #{id}")
+    int updateStatusById(Integer id,Integer status);
+
+    @Select("select * from employee where id = #{id}")
+    Employee getById(Integer id);
+
+    @Update("update employee set name = #{name},username=#{username},phone=#{phone},sex=#{sex},id_number=#{idNumber} where id = #{id}")
+    int updateEmployee(Employee employee);
 }

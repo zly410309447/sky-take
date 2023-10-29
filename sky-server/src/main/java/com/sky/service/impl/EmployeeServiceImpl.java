@@ -5,6 +5,7 @@ import com.sky.constant.StatusConstant;
 import com.sky.context.BaseContext;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
+import com.sky.dto.EmployeePageQueryDTO;
 import com.sky.entity.Employee;
 import com.sky.exception.AccountLockedException;
 import com.sky.exception.AccountNotFoundException;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static com.sky.constant.PasswordConstant.DEFAULT_PASSWORD;
 import static com.sky.constant.StatusConstant.ENABLE;
@@ -75,5 +77,28 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setUpdateUser(BaseContext.getCurrentId());
 
         return employeeMapper.insertEmployee(employee);
+    }
+
+    @Override
+    public List<Employee> queryEmoloyeeByPage(EmployeePageQueryDTO employeePageQueryDTO) {
+        return employeeMapper.getEmployeePage(employeePageQueryDTO.getName(),
+                employeePageQueryDTO.getPage()-1,employeePageQueryDTO.getPageSize());
+    }
+
+    @Override
+    public int updateStatusById(Integer id, Integer status) {
+        return employeeMapper.updateStatusById(id,status);
+    }
+
+    @Override
+    public Employee queryEmployeeById(Integer id) {
+        return employeeMapper.getById(id);
+    }
+
+    @Override
+    public int updateEmployeeById(EmployeeDTO employeeDTO) {
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeDTO,employee);
+        return employeeMapper.updateEmployee(employee);
     }
 }
