@@ -16,6 +16,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -96,6 +97,11 @@ public class EmployeeController {
         return Result.success();
     }
 
+    /**
+     * 分页查询接口
+     * @param employeePageQueryDTO
+     * @return
+     */
     @GetMapping("/page")
     @ApiOperation("分页查询员工信息")
     public Result<EmployeesVO> queryEmployeePage(EmployeePageQueryDTO employeePageQueryDTO){
@@ -108,9 +114,15 @@ public class EmployeeController {
         return Result.success(employeesVO);
     }
 
+    /**
+     * 启用禁用账号接口
+     * @param id
+     * @param status
+     * @return
+     */
     @PostMapping("/status/{status}")
     @ApiOperation("启用禁用员工账号")
-    public Result updateEmployeeStatus(Integer id, @PathVariable("status")Integer status){
+    public Result updateEmployeeStatus(Long id, @PathVariable("status")Integer status){
         int result = employeeService.updateStatusById(id,status);
         if(result == 0){
             return Result.error("修改失败");
@@ -119,12 +131,23 @@ public class EmployeeController {
     }
 
 
+    /**
+     * 根据id查询员工信息
+     * @param id
+     * @return
+     */
     @GetMapping("/{id}")
     @ApiOperation("根据id查询员工信息")
-    public Result<Employee> queryEmoloyeeById(@PathVariable("id")Integer id){
+    public Result<Employee> queryEmoloyeeById(@PathVariable("id")Long id){
         return Result.success(employeeService.queryEmployeeById(id));
     }
 
+
+    /**
+     * 编辑员工信息
+     * @param employeeDTO
+     * @return
+     */
     @PutMapping
     @ApiOperation("编辑员工信息")
     public Result updateEmployeeById(@RequestBody EmployeeDTO employeeDTO){

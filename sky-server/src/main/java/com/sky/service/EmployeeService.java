@@ -31,9 +31,9 @@ public interface EmployeeService {
     /**
      * 修改启用禁用账号状态
      */
-    int updateStatusById(Integer id,Integer status);
+    int updateStatusById(Long id,Integer status);
 
-    Employee queryEmployeeById(Integer id);
+    Employee queryEmployeeById(Long id);
 
     int updateEmployeeById(EmployeeDTO employeeDTO);
 }

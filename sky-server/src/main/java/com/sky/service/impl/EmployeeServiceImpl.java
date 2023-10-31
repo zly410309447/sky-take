@@ -71,10 +71,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         BeanUtils.copyProperties(employeeDTO,employee);
         employee.setPassword(DigestUtils.md5DigestAsHex(DEFAULT_PASSWORD.getBytes()));
         employee.setStatus(ENABLE);
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setCreateUser(BaseContext.getCurrentId());
-        employee.setUpdateUser(BaseContext.getCurrentId());
+//        employee.setUpdateTime(LocalDateTime.now());
+//        employee.setCreateTime(LocalDateTime.now());
+//        employee.setCreateUser(BaseContext.getCurrentId());
+//        employee.setUpdateUser(BaseContext.getCurrentId());
 
         return employeeMapper.insertEmployee(employee);
     }
@@ -86,12 +86,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public int updateStatusById(Integer id, Integer status) {
-        return employeeMapper.updateStatusById(id,status);
+    public int updateStatusById(Long id, Integer status) {
+        Employee employee = new Employee();
+        employee.setId(id);
+        employee.setStatus(status);
+        return employeeMapper.updateStatusById(employee);
     }
 
     @Override
-    public Employee queryEmployeeById(Integer id) {
+    public Employee queryEmployeeById(Long id) {
         return employeeMapper.getById(id);
     }
 
